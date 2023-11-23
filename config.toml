@@ -6,7 +6,7 @@ title = "Puppet"
 theme = "puppet"
 # themesDir = "../.."
 
-copyright = ""
+copyright = "Copyright © 2023. All Rights Reserved. Zhenda 版权所有"
 paginate = 5
 languageCode = "en"
 defaultContentLanguage = "en"
@@ -37,7 +37,12 @@ codeFences = true
 guessSyntax = true
 lineNos = true
 lineNumbersInTable = false
-style = "dracula"
+tabWidth = 4
+
+# style = "dracula"
+# style = "catppuccin-latte"
+# style = "github"
+style = "xcode"
 
 [markup.goldmark.renderer]
 unsafe = true
