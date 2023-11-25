@@ -1,7 +1,7 @@
-# baseURL = "http://localhost:1313/subdir"
-baseURL = "https://zhenda-hub.github.io/"
+baseURL = "http://localhost:1313/subdir"
+# baseURL = "https://zhenda-hub.github.io/"
 
-title = "Puppet"
+title = "Zhenda's Blog"
 
 theme = "puppet"
 # themesDir = "../.."
@@ -76,8 +76,8 @@ weight = 100
 
 
 [params]
-author = "Puppet"
-description = "A simple and clean theme for Hugo"
+author = "Zhenda"
+description = "Just Do It"
 keywords = "blog,developer,personal"
 img_home = "img/home-bg.jpg"
 img_404 = "img/404-bg.jpg"

@@ -2,6 +2,13 @@
 title = 'Pyqt5指南'
 date = 2023-11-25T11:48:21+08:00
 draft = true
+# description = "A brief description of Hugo Shortcodes"
+tags = ["shortcodes", "privacy", "MarkDown", "Python"]
+subtitle = "A brief description of Hugo Shortcodes"
+# header_img = "img/404-bg.jpg"
+toc = true
+# categories = ["themes", "syntax",]
+series = ["Themes Guide", "fffsss"]
 +++
 
 使用python我们也可以开发桌面应用（在pc上运行的软件，pyqt5好像还不支持手机app）平时做做小工具还是挺方便的。这次我们一起学习一下pyqt5
