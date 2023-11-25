@@ -1,8 +1,9 @@
 +++
-title = 'Linux系统操作'
+title = 'Linux系统教程'
 date = 2023-11-25T11:29:37+08:00
 draft = true
 toc = true
+tags = ["linux"]
 +++
 
 <!-- [toc] -->
@@ -38,6 +39,8 @@ shell：一个命令解释器，它不仅仅是提供了**命令解释**的功�
 
 bash的配置文件： ~/.bashrc
 
+加载配置文件的配置到当前bash： source ~/.bashrc
+
 命令：操作系统中提供的工具（可执行文件），供用户使用。
 
 命令学习手册： man 命令。 可以查看命令的作用和相关参数
@@ -48,6 +51,18 @@ bash的配置文件： ~/.bashrc
 - 输入命令，完成各种操作，比图形界面GUI更高效
 
 ### ssh
+
+ssh是一种**安全的网络协议**。 可以安全的远程连接电脑。
+
+远程连接的意义
+
+- 方便随时随地的查看状态，处理故障
+- 可以远程连接多个地区的服务器，统一管理
+可以看出 远程连接服务器的优势： **高效，安全**
+
+相关命令
+
+- ssh 用户名@服务器的IP地址
 
 ### 文件管理
 
@@ -171,13 +186,26 @@ linux 目录结构：<https://www.runoob.com/linux/linux-system-contents.html>
 
 ### 软件安装
 
-...
+如果下载很慢的话，需要**切换下载源**
+
+相关命令
+
+- ubuntu
+  - sudo apt update && sudo apt upgrade : 更新
+  - sudo apt install xxx : 下载
+  - sudo apt remove xxx : 卸载
+  
+- centos
+  - yum update : 更新
+  - yum install xxx : 下载
+  - yum remove xxx : 卸载
+  
 
 ## 高级阶段
 
 ### 用户管理
 
-linux系统支持多用户同时使用。可以为每个用户设置群组， 通过群组间接进行权限控制
+linux系统支持**多用户同时使用**。可以为每个用户设置群组， 通过群组间接进行权限控制
 
 超级用户 root, 拥有最高权限
 
@@ -206,7 +234,6 @@ sudo命令 提升权限 visudo
 - ifconfig
 - ping
 - curl
-- ssh 用户名@IP地址： 远程连接
 
 ### 防火墙
 
@@ -216,4 +243,20 @@ sudo命令 提升权限 visudo
 
 ### shell脚本
 
-...
+概念： 在文件中，按照语法规则，编写一系列的能够被shell解释的**shell命令**，供操作系统执行， 这个文件就是shell脚本。 通常命名为*.sh
+
+shell脚本的优势：
+
+- **自动化执行一系列操作**，无需手动一个一个命令的执行
+- 可以设置定时执行
+- 学习难度不大
+
+主要学习内容：
+
+- 编写范式
+- test
+- 判断
+- 条件
+- 循环
+- 函数
+- debug

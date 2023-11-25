@@ -3,6 +3,7 @@ title = 'Python基础 类2'
 date = 2023-11-23T22:49:27+08:00
 draft = true
 toc = true
+tags = ["Python", "Software Architecture"]
 +++
 
 这次我们补充说明 __类的关系__ 这一非常重要的概念

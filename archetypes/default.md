@@ -4,4 +4,5 @@ subtitle = ""
 date = {{ .Date }}
 draft = true
 toc = true
+tags = []
 +++
