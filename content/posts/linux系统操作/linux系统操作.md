@@ -23,6 +23,7 @@ linux是一个稳定， 安全， 开源，免费的操作系统内核。 支持
 | 系统分类 | 特点 | 软件安装工具 |
 | :----: | :----: | :----: |
 |ubuntu  | 自带桌面 | apt |
+|manjaro  |  | apt |
 |centos  |  | yum |
 
 ## 初级阶段
@@ -149,8 +150,7 @@ linux 目录结构：<https://www.runoob.com/linux/linux-system-contents.html>
   - 操作
     - 退出保存 wq
     - 退出不保存 q!
-
-![vim](../imgs/vim模式转换.jpg)
+    - ![vim](./imgs/vim模式转换.jpg)
 
 ### 磁盘管理
 
@@ -255,6 +255,13 @@ shell脚本的优势：
 
 - 编写范式
 - test
+  - fdf
+  - 反对法地方
+    - fdfd
+    - 反对反对
+      - 广泛广泛
+
+
 - 判断
 - 条件
 - 循环
