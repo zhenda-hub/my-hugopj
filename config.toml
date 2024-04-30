@@ -36,7 +36,7 @@ noClasses = true
 codeFences = true
 guessSyntax = true
 lineNos = true
-lineNumbersInTable = false
+lineNumbersInTable = true
 tabWidth = 4
 
 # style = "dracula"

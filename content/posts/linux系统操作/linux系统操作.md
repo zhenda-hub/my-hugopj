@@ -151,7 +151,7 @@ linux 目录结构：<https://www.runoob.com/linux/linux-system-contents.html>
     -   操作
         -   退出保存 wq
         -   退出不保存 q!
-        -   ![vim](./imgs/vim模式转换.jpg)
+        -   ![vim](../imgs/vim2.jpg)
 
 ### 磁盘管理
 
