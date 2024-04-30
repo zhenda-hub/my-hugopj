@@ -23,6 +23,9 @@ googleAnalytics = ""
 
 [outputs]
 home = ["HTML", "JSON", "RSS"]
+# section = ['html', 'rss']
+# taxonomy = ['html']
+# term = ['html']
 
 # prevent build failures when using Hugo's template _internal/opengraph.html 
 [taxonomies]
