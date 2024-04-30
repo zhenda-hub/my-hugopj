@@ -100,6 +100,23 @@ scp
 eog xxx.png
 ```
 
+## resize mem swap
+
+```bash
+# resize swap
+sudo swapoff -a
+sudo dd if=/dev/zero of=/swapfile bs=1G count=16
+sudo chmod 0600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+
+# look swap
+swapon --show
+free -h
+```
+
+https://askubuntu.com/questions/178712/how-to-increase-swap-space
+
 ## 遗留事项
 
 -   查看所有的 history
