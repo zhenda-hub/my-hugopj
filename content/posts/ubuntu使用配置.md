@@ -105,7 +105,7 @@ eog xxx.png
 ```bash
 # resize swap
 sudo swapoff -a
-sudo dd if=/dev/zero of=/swapfile bs=1G count=16
+sudo dd if=/dev/zero of=/swapfile bs=1G count=32
 sudo chmod 0600 /swapfile
 sudo mkswap /swapfile
 sudo swapon /swapfile
@@ -116,6 +116,13 @@ free -h
 ```
 
 https://askubuntu.com/questions/178712/how-to-increase-swap-space
+https://help.ubuntu.com/community/SwapFaq#Why_is_my_swap_not_being_used.3F
+
+## look screen
+
+```bash
+xrandr
+```
 
 ## 遗留事项
 
