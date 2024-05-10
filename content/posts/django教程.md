@@ -23,11 +23,38 @@ tags = ["web"]
 ### 直接编写后台逻辑和前台模板页面
 
 -   url
+    -   ‘’
+    -   create
+    -   \<int:pk\>
+    -   \<int:pk\>/update
+    -   \<int:pk\>/delete
 -   view
     -   FBV
     -   CBV
 -   template
+
+    -   页面的主要类型
+        -   list
+        -   detail
+        -   delete_confirm
+    -   语法
+        -   tags
+            -   在 app 内创建 templatetags/demo.py
+            -   {% include demo %}
+            -   常用语法
+                -   {% load xxx %} **在 html 的最开头**
+                -   {% extends 'xxx.html' %}
+                -   {% include xxx %}
+                -   {% block xxx %} {% endblock xxx %}
+                -   {% url 'namespace:name' %}
+        -   variables
+            -   {{ var1 }}
+        -   filters
+        -   comments
+
 -   form
+    -   Form: 灵活设置
+    -   ModelForm：针对模型，添加了数据的验证和保存的功能
 
 ## view 之上的逻辑
 
@@ -45,12 +72,14 @@ tags = ["web"]
 
 ## 前后端分离
 
--   vue
+-   DRF
     -   FBV
     -   CBV
--   drf
+-   VUE
 
 ## 网站部署
+
+配置 nginx 和 uwsgi
 
 ## django 源码风格
 
