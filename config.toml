@@ -97,15 +97,16 @@ gravatarEmail = ""
 avatar = "img/home-bg.jpg"
 bio = "a personal website"
 
-# [params.social]
+[params.social]
+github = "zhenda-hub"
+rss = true
 # twitter = "johndoe"
 # facebook = "johndoe"
 # zhihu = "johndoe"
 # weibo = "johndoe"
-# github = "johndoe"
 # gitlab = "johndoe"
 # linkedin = "johndoe"
-# rss = true
+
 # [params.social.mastodon]
 # weight = 56
 # icon = "fab fa-mastodon"
