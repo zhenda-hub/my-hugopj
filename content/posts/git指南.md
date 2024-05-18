@@ -1,5 +1,5 @@
 +++
-title = 'Git指南'
+title = 'Git资源'
 subtitle = ""
 date = 2024-01-08T23:37:30+08:00
 draft = true

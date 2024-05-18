@@ -11,7 +11,7 @@ tags = ["linux"]
 
 [toc]
 
-## app install uninstall
+## install and uninstall
 
 sys_update.sh
 
@@ -33,52 +33,46 @@ sudo apt-get install gnome-shell-pomodoro
 
 ## settings
 
-再次点击最小化应用
+再次点击图标实现最小化
 
 ```bash
 gsettings set org.gnome.shell.extensions.dash-to-dock click-action 'minimize'
 ```
 
-### .\*rc file settings
+### ~/.xxxrc file settings
 
 -   ~/.bashrc
 
-```bash
-# auto ls
-function cd {
-    builtin cd "$@" && ls
-}
+    ```bash
+    # auto ls
+    function cd {
+        builtin cd "$@" && ls
+    }
 
-# alias
-alias ls='ls --time-style=long-iso'
-alias ll='ls -alFh'
-```
+    # alias
+    alias ls='ls --time-style=long-iso'
+    alias ll='ls -alFh'
+    ```
 
 -   ~/.vimrc
 
-```bash
-syntax on
-set autoindent
-set tabstop=4
-set shiftwidth=4
-set cursorline
-set backup
-set backupdir=~/.vim/undo
-```
+    ```bash
+    syntax on
+    set autoindent
+    set tabstop=4
+    set shiftwidth=4
+    set cursorline
+    set backup
+    set backupdir=~/.vim/undo
+    ```
 
 -   ~/.nanorc
 
-```bash
-include "/usr/share/nano/*.nanorc"
-set tabsize 4
-set backup
-```
-
-## zip file
-
-```bash
-unzip xxxfile
-```
+    ```bash
+    include "/usr/share/nano/*.nanorc"
+    set tabsize 4
+    set backup
+    ```
 
 <!--
 ## Homebrew
@@ -91,7 +85,8 @@ https://docs.brew.sh/Homebrew-on-Linux -->
 
 ```bash
 ssh -v 用户名@ip地址
-scp
+exit
+scp ... ...
 ```
 
 ## open picture
@@ -118,14 +113,14 @@ free -h
 https://askubuntu.com/questions/178712/how-to-increase-swap-space
 https://help.ubuntu.com/community/SwapFaq#Why_is_my_swap_not_being_used.3F
 
-## look screen
+## check screen
 
 ```bash
 xrandr
 ```
 
-## 遗留事项
+## Remaining matters
 
 -   查看所有的 history
 -   视频没有预览图
--   ping 很多网站不通 本来就这样把
+-   ping 很多网站不通

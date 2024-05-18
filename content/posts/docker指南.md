@@ -9,10 +9,10 @@ tags = ["docker", "basic_tools"]
 
 ## 官方文档
 
-<https://docs.docker.com/get-started/>
-<https://docs.docker.com/develop/dev-best-practices/>
-<https://docs.docker.com/develop/develop-images/instructions/>
+- <https://docs.docker.com/get-started/>
+- <https://docs.docker.com/develop/dev-best-practices/>
+- <https://docs.docker.com/develop/develop-images/instructions/>
 
 ## 相关教程
 
-<https://juejin.cn/post/7154437479955693598>
+- <https://juejin.cn/post/7154437479955693598>
