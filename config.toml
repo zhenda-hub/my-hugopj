@@ -114,21 +114,21 @@ rss = true
 # id = "johndoe"
 # url = ""
 
-# [[params.friends]]
-# name = "John Doe"
-# url = "https://gohugo.io"
+[[params.friends]]
+name = "John Doe"
+url = "https://gohugo.io"
 
-# [[params.friends]]
-# name = "John Doe"
-# url = "https://gohugo.io"
+[[params.friends]]
+name = "John Doe"
+url = "https://gohugo.io"
 
 # See https://giscus.app/
 [params.giscus]
 enable = true
-repo = "roninro/hugo-theme-puppet"
-repo_id = "R_kgDOHuvyhw"
-category = "General"
-category_id = "DIC_kwDOHuvyh84CQjDo"
+repo = "zhenda-hub/zhenda-hub.github.io"
+repo_id = "R_kgDOKvQVww"
+category = "Announcements"
+category_id = "DIC_kwDOKvQVw84CfdFG"
 input_position = "top"
-theme = "light_tritanopia"
+theme = "light"
 lang = "en"

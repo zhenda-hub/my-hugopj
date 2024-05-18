@@ -1,5 +1,7 @@
 # my-hugopj
 
+a project to generate my blog
+
 ## hugo settings doc
 
 https://gohugo.io/getting-started/configuration-markup/
@@ -13,4 +15,8 @@ https://gohugo.io/installation/linux/
 https://github.com/roninro/hugo-theme-puppet
 
 ### comments
-at discussions
+
+use giscus:
+- https://giscus.app/zh-CN
+- https://blog.highp.ing/p/giscus/
+- https://fengchao.pro/blog/comment-system-with-giscus/

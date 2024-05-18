@@ -118,6 +118,14 @@ https://help.ubuntu.com/community/SwapFaq#Why_is_my_swap_not_being_used.3F
 ```bash
 xrandr
 ```
+## dns setting
+
+```bash
+sudo nano /etc/resolv.conf
+
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+```
 
 ## Remaining matters
 
