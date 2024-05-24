@@ -10,7 +10,6 @@ https://gohugo.io/getting-started/configuration-markup/
 
 https://gohugo.io/installation/linux/
 
-
 ## theme
 https://github.com/roninro/hugo-theme-puppet
 

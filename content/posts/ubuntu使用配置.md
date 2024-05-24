@@ -31,6 +31,13 @@ sudo apt install flameshot
 sudo apt-get install gnome-shell-pomodoro
 ```
 
+install
+```bash
+sudo apt install <path to .deb file>
+# 备用
+sudo dpkg -i <path to .deb file>
+```
+
 ## settings
 
 再次点击图标实现最小化

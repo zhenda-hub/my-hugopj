@@ -39,13 +39,15 @@ tags = ["web"]
 ### 初级阶段，使用 admin 后台快速建站
 
 -   model
+
     -   model 分类
         -   普通的继承
         -   abstruct 抽象基类
         -   proxy 添加额外的方法
     -   模型管理器
-        -   objects = 
-    -   自定义BaseModel
+        -   objects =
+    -   自定义 BaseModel
+
     ```python
     class BaseModel(models.Model):
         """为模型类补充字段"""
@@ -131,6 +133,7 @@ tags = ["web"]
         -   \<int:pk\>/delete
     -   ## 嵌套的 url
 -   view
+
     -   FBV
     -   CBV
     -   中间件， 钩子
@@ -167,11 +170,40 @@ tags = ["web"]
 
 ### 用户和邮箱
 
-用户模块的重要意义： 支持多端用户，千人千面。
-settings.AUTH_USER_MODEL
+新项目的用户模型
+
+```python
+# app/models.py
+from django.contrib.auth.models import AbstractUser
+
+
+class User(AbstractUser):
+    pass
+
+# project/settings.py
+settings.AUTH_USER_MODEL = 'appname.User'
+
+# app.admin.py
+from django.contrib.auth.admin import UserAdmin
+
+
+class CustomUserAdmin(UserAdmin):
+    ...
+    fieldsets = UserAdmin.fieldsets + ((None, {"fields": ["custom_field"]}),)
+    add_fieldsets = UserAdmin.add_fieldsets + ((None, {"fields": ["custom_field"]}),)
+```
+
 登录状态检测
 
 ### 权限
+ 
+- RBAC： 基于角色控制访问
+-   分类
+    -   retrieve detail
+    -   create
+    -   retrieve list
+    -   update detail
+    -   delete detail
 
 ### celery 处理异步任务和定时任务
 
@@ -180,14 +212,35 @@ settings.AUTH_USER_MODEL
 ## 前后端分离
 
 -   DRF
-    -   FBV
-    -   CBV
+    -   概念
+        -   对 django 框架进一步封装的第三方包，以便于写出 restfulAPI
+    -   Serialization
+    -   APIView
+        -   Request
+        -   Response
+            -   status.xxx
+        -   顺序
+            -   Authentication
+            -   Permission
+            -   Throttling
+            -   view func
+    -   Viewset
+    -   Router
 -   VUE
 
 ## 网站部署
+
+```bash
+pythono manage.py check --deploy
+```
 
 配置 nginx 和 uwsgi
 
 ## django 源码风格
 
 广泛使用 Minin 和 decorator
+
+## 相关文档
+
+-   [Django Doc](https://docs.djangoproject.com/zh-hans/5.0/)
+-   [DRF Doc](https://www.django-rest-framework.org/tutorial/quickstart/)
