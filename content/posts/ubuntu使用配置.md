@@ -7,10 +7,6 @@ toc = true
 tags = ["linux"]
 +++
 
-# ubuntu 使用配置
-
-[toc]
-
 ## install and uninstall
 
 sys_update.sh
