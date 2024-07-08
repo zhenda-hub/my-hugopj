@@ -119,8 +119,8 @@ name = "John Doe"
 url = "https://gohugo.io"
 
 [[params.friends]]
-name = "John Doe"
-url = "https://gohugo.io"
+name = "Guo Qiang"
+url = "https://www.kumao.cool"
 
 # See https://giscus.app/
 [params.giscus]

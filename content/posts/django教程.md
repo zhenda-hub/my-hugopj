@@ -7,25 +7,42 @@ toc = true
 tags = ["web"]
 +++
 
-# Django 教程
-
-[toc]
-
 ## 通信协议
 
 -   HTTP
 
+| 请求方式 | 传参方式                           | 示例                                              |
+|----------|------------------------------------|---------------------------------------------------|
+| GET      | 查询字符串 (Query Parameters)      | `GET /users?id=123`                               |
+|          | 路径参数 (Path Parameters)         | `GET /users/123`                                  |
+|          | 请求头 (Headers)                   | `Authorization: Bearer token`                     |
+| POST     | 请求体 (Request Body)              | `POST /users`<br>`{ "name": "John", "age": 30 }`  |
+|          | 表单数据 (Form Data)               | `POST /users`<br>`name=John&age=30`               |
+|          | 请求头 (Headers)                   | `Content-Type: application/json`                  |
+| PUT      | 请求体 (Request Body)              | `PUT /users/123`<br>`{ "name": "Jane", "age": 25 }`|
+|          | 路径参数 (Path Parameters)         | `PUT /users/123`                                  |
+|          | 请求头 (Headers)                   | `Content-Type: application/json`                  |
+| PATCH    | 请求体 (Request Body)              | `PATCH /users/123`<br>`{ "age": 31 }`             |
+|          | 路径参数 (Path Parameters)         | `PATCH /users/123`                                |
+|          | 请求头 (Headers)                   | `Content-Type: application/json`                  |
+| DELETE   | 路径参数 (Path Parameters)         | `DELETE /users/123`                               |
+|          | 请求头 (Headers)                   | `Authorization: Bearer token`                     |
+
+
+
     -   get
-        -   传参(对数据长度有限制(大约 2048 个字符)
+        -   url传参(对数据长度有限制(大约 2048 个字符)
             -   http://example.com/api?k1=v1&k2=v2
     -   post
         -   传参
-            -   request header
-                -   Content-Type 指明数据格式
-            -   request body
-                -   json
-                -   form-data
-                -   text
+            -   类型
+                -   request header
+                    -   Content-Type 指明数据格式
+                -   request body
+                    -   json
+                    -   form-data
+                    -   text
+            -   url传参 
     -   put
         -   传参同 post, 只是需要对象存在
     -   delete
@@ -126,17 +143,36 @@ tags = ["web"]
     -   view 中访问
         -   reverse()
     -   基本格式
-        -   ‘’
-        -   create
-        -   \<int:pk\>
-        -   \<int:pk\>/update
-        -   \<int:pk\>/delete
+        -   ''
+        -   create/
+        -   \<int:pk\>/
+        -   \<int:pk\>/update/
+        -   \<int:pk\>/delete/
+    -   传参数
+        -   使用<>来传参
     -   ## 嵌套的 url
 -   view
 
+    - 概念：处理请求， 返回响应。通常会操作数据库
+    -   请求和响应
+        -   https://docs.djangoproject.com/zh-hans/5.0/ref/request-response/
+        -   HttpRequest
+            -   可以在中间件中设置各种需要的属性
+        -   HttpResponse
+            -   分类
+                -   纯文本
+                -   json
+                -   html
+                -   文件
+                -   redirect
+    -   数据库操作
+        -   https://docs.djangoproject.com/en/5.0/ref/models/querysets/#get
     -   FBV
+        -   很直观，完全自主可控的写法
     -   CBV
+        -   django提供了一些类来作为view, 不是很好用
     -   中间件， 钩子
+        -   概念：在HttpRequest到达view的前后，自定义额外的处理逻辑
 
 -   template
 
@@ -163,7 +199,7 @@ tags = ["web"]
         -   模板加载顺序 DIRS -> APP_DIRS -> others
 
 -   form
-    -   Form: 灵活设置
+    -   Form: 灵活设置需要的字段
     -   ModelForm：针对模型，添加了数据的验证和保存的功能
 
 ## 具体功能
@@ -193,11 +229,22 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = UserAdmin.add_fieldsets + ((None, {"fields": ["custom_field"]}),)
 ```
 
-登录状态检测
+老项目的用户模型
+
+使用OneToOneField
+```python
+from django.contrib.auth.models import User
+
+
+class Employee(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    department = models.CharField(max_length=100)
+```
+
 
 ### 权限
- 
-- RBAC： 基于角色控制访问
+
+-   RBAC： 基于角色控制访问
 -   分类
     -   retrieve detail
     -   create
@@ -215,18 +262,26 @@ class CustomUserAdmin(UserAdmin):
     -   概念
         -   对 django 框架进一步封装的第三方包，以便于写出 restfulAPI
     -   Serialization
+        -   data
+            -   to_representation() 重写序列化逻辑
+            -   valid_xxxx() 重写验证逻辑
     -   APIView
         -   Request
         -   Response
             -   status.xxx
         -   顺序
-            -   Authentication
-            -   Permission
-            -   Throttling
+            -   as_view()
+                -   dispatch()
+                    -   Authentication
+                    -   Permission
+                    -   Throttling
             -   view func
     -   Viewset
     -   Router
 -   VUE
+-   CORS 报错
+    -   pip install django-cors-headers
+    -   https://www.cnblogs.com/WiseAdministrator/articles/11488681.html
 
 ## 网站部署
 

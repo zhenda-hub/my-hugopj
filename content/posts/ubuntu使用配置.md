@@ -130,6 +130,14 @@ nameserver 8.8.8.8
 nameserver 8.8.4.4
 ```
 
+## keyboard
+
+```bash
+ibus restart
+ibus-setup
+```
+
+
 ## Remaining matters
 
 -   查看所有的 history
