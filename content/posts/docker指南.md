@@ -192,6 +192,10 @@ Run 'docker compose COMMAND --help' for more information on a command.
 
 ## Dockerfile
 
+### 作用
+
+Dockerfile 的目的是构建一个可复用的镜像
+
 ### 官方文档
 
 -   <https://docs.docker.com/get-started/>
@@ -226,12 +230,23 @@ Run 'docker compose COMMAND --help' for more information on a command.
 ### 基础镜像
 
 - 轻量级的 Linux 发行版
-  - alpine(可进一步下载工具)
-  - busybox
+  - slim(下载工具apt 300MB)
+    - apt install xxx
+    - apt remove xxx
+  - alpine(下载工具apk 8MB)
+    - apk add xxx
+    - apk del xxx
+  - busybox(4MB)
 
 ### Dockerfile示例
 
-python项目的Dockerfile
+```bash
+# 开发容器时, 为了防止容器挂掉, 可以使用以下两个命令
+tail -f /dev/null
+sleep infinity
+```
+
+1. python项目的Dockerfile
 
 ```Dockerfile
 FROM python:3
@@ -242,20 +257,39 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
-# CMD 是容器的默认启动命令
-CMD [ "python", "./your-daemon-or-script.py" ]
-# 或者调用sh文件, 执行一系列命令
-# CMD [ "bash", "./script.sh" ]  
+# ENTRYPOINT 是容器的默认启动文件(执行一系列命令), CMD 是容器的默认启动命令, 给 ENTRYPOINT 传递参数
+ENTRYPOINT ["./entrypoint.sh"]
+CMD ["tail", "-f", "/dev/null"]
+# CMD [ "python", "./your-daemon-or-script.py" ]
 ```
+
+2. python项目的entrypoint.sh文件
+
+```bash
+#!/bin/bash
+
+echo "start sh!!!!!!!"
+
+# pip freeze > requirements.txt
+# django-admin startproject pj1
+
+python manage.py migrate
+python manage.py collectstatic --noinput
+
+# python manage.py runserver 0.0.0.0:8000
+gunicorn -c gunicorn_conf.py pj1.wsgi
+
+# 执行传入的命令或默认命令
+exec "$@"
+
+```
+
+3. 运行Dockerfile
 
 ```bash
 # 有了Dockerfile后 需要build, run
-docker built -t username/image_name:tag_version .
+docker build -t username/image_name:tag_version .
 docker run -d -p local_ip:container_ip username/image_name:tag_version
-
-# 开发容器时, 为了防止容器挂掉, 可以使用以下两个命令
-tail -f /dev/null
-sleep infinity
 ```
 
 ### 操作方法
@@ -288,6 +322,7 @@ docker run -d -p local_ip:container_ip username/image_name:tag_version
 # exec, exit退出此模式
 docker exec -it container_id /bin/bash
 docker rm container_id
+docker stop container_id
 
 # run时添加volume
 docker run -d -v volume_name:container_folder_path username/image_name:tag_version
@@ -344,6 +379,10 @@ docker run --rm -v new_volume:/volume -v $(pwd):/backup busybox tar -xzvf /backu
 可以在这个平台, 测试镜像是否符合预期
 
 ## Docker Compose
+
+### 作用
+
+docker-compose.yaml 的目的是编排多个服务
 
 ### 官方文档
 
@@ -492,6 +531,16 @@ myproject/
 
 ```
 
+## docker 标签
+
+用于版本回退
+TODO: how
+
+## 在CI/CD中的使用
+
+自动化, 命令, 触发
+git push -> run testcase -> build image -> use image to deploy -> 自动监控 -> 自动回滚
+
 ## 其余内容
 
 ### Docker Scout
@@ -503,12 +552,3 @@ myproject/
 要将应用部署到多个节点（服务器），实现分布式部署
 
 通常需要多个服务器!!! 才可以体现出其高可用性和扩展性
-
-## docker 标签
-
-用于版本回退
-
-## 在CI/CD中的使用
-
-自动化 , 命令, 触发
-git push -> run testcase -> build image -> deploy image -> 自动监控 -> 自动回滚
