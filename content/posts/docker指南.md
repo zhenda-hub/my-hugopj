@@ -44,7 +44,48 @@ tags = ["docker", "tools"]
 | Service  | 在 Swarm 模式下，定义了如何部署和管理一组容器实例。                                         |
 | Stack    | 在 Docker Swarm 或 Compose 中定义的一组相关服务和资源。                                      |
 
-## Docker CLI
+## 操作docker的方法
+
+1. 可视化工具
+
+- docker desktop
+- portainer (第三方web工具)
+
+2. docker cli命令
+
+- 常用命令
+
+```bash
+# 创建 context
+docker context create desktop-linux --description "Docker Desktop" --docker "host=unix:///home/YOUR_USER_NAME/.docker/desktop/docker.sock"
+
+# repo
+docker pull username/image_name:tag_version
+docker push username/image_name:tag_version
+
+# image
+docker images
+docker built -t username/image_name:tag_version .
+docker tag old_image_name new_image_name
+docker rmi image_id
+docker container commit TODO:
+
+# container
+docker ps
+docker ps -a
+docker run -d -p local_ip:container_ip username/image_name:tag_version
+# exec, exit退出此模式
+docker exec -it container_id /bin/bash
+docker rm container_id
+docker stop container_id
+
+# run时添加volume
+docker run -d -v volume_name:container_folder_path username/image_name:tag_version
+docker run -d -v local_folder_path:container_folder_path username/image_name:tag_version
+
+```
+
+- 查阅命令
 
 ```bash
 docker --help
@@ -302,44 +343,6 @@ docker build -t username/image_name:tag_version .
 docker run -d -p local_ip:container_ip username/image_name:tag_version
 ```
 
-### 操作方法
-
-1. 可视化工具
-
-- docker desktop
-- portainer
-
-2. 常用命令
-
-```bash
-# 创建 context
-docker context create desktop-linux --description "Docker Desktop" --docker "host=unix:///home/YOUR_USER_NAME/.docker/desktop/docker.sock"
-
-# repo
-docker pull username/image_name:tag_version
-docker push username/image_name:tag_version
-
-# image
-docker images
-docker built -t username/image_name:tag_version .
-docker tag old_image_name new_image_name
-docker rmi image_id
-
-# container
-docker ps
-docker ps -a
-docker run -d -p local_ip:container_ip username/image_name:tag_version
-# exec, exit退出此模式
-docker exec -it container_id /bin/bash
-docker rm container_id
-docker stop container_id
-
-# run时添加volume
-docker run -d -v volume_name:container_folder_path username/image_name:tag_version
-docker run -d -v local_folder_path:container_folder_path username/image_name:tag_version
-
-```
-
 ## Volume 和 Bind Mount
 
 Docker 不允许直接将一个容器目录同时挂载到宿主机目录和 Docker volume
@@ -548,3 +551,100 @@ git push -> run testcase -> build image -> use image to deploy -> 自动监控 -
 要将应用部署到多个节点（服务器），实现分布式部署
 
 通常需要多个服务器!!! 才可以体现出其高可用性和扩展性
+
+### 关于 Docker Desktop 的使用
+
+#### 使用 windows WSL2
+
+配置WSL防止内存过大
+
+1. 创建 C:\Users\username\.wslconfig
+2. 写入以下内容
+
+    ```
+    [wsl2]
+    # 配置 WSL 的核心数
+    processors=2
+    # 配置 WSL 的内存最大值
+    memory=2GB
+    # 配置交换内存大小，默认是电脑内存的 1/4
+    swap=8GB
+    # 关闭默认连接以将 WSL 2 本地主机绑定到 Windows 本地主机
+    localhostForwarding=true
+    # 设置临时文件位置，默认 %USERPROFILE%\\AppData\\Local\\Temp\\swap.vhdx
+    # swapfile=D:\\\\temp\\\\wsl-swap.vhdx
+    ```
+
+#### docker engine 配置
+
+~/.docker/daemon.json
+
+```json
+{
+  "builder": {
+    "gc": {
+      "defaultKeepStorage": "20GB",
+      "enabled": true
+    }
+  },
+  "experimental": false,
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "10m",
+    "max-file": "3"
+  }
+}
+```
+
+### 换源
+
+#### apt换国内源
+
+```Dockerfile
+# debian12 替换 APT 源为国内源
+RUN sed -i 's@deb.debian.org@mirrors.tuna.tsinghua.edu.cn@g' /etc/apt/sources.list.d/debian.sources && \
+    sed -i 's@deb.debian.org@mirrors.ustc.edu.cn@g' /etc/apt/sources.list.d/debian.sources && \
+    sed -i 's@deb.debian.org@mirrors.aliyun.com@g' /etc/apt/sources.list.d/debian.sources && \
+    sed -i 's@deb.debian.org@mirrors.cloud.tencent.com@g' /etc/apt/sources.list.d/debian.sources
+    
+# 更新, 安装所需的软件包（这里仅为示例）, 最后清理apt-get缓存
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    curl \
+    git \
+    && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+```
+
+#### pip换国内源
+
+```Dockerfile
+# 设置 pip 源为阿里云源和其他国内源
+RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/ && \
+    pip config set global.extra-index-url https://mirrors.aliyun.com/pypi/simple/ && \
+    pip config set global.extra-index-url https://mirrors.cloud.tencent.com/pypi/simple/ && \
+    pip config set install.trusted-host pypi.tuna.tsinghua.edu.cn && \
+    pip config set install.trusted-host mirrors.aliyun.com && \
+    pip config set install.trusted-host mirrors.cloud.tencent.com
+```
+
+#### docker换国内源
+
+```bash
+sudo nano /etc/docker/daemon.json
+```
+
+```json
+{
+    "registry-mirrors": [
+        "https://docker.m.daocloud.io", 
+        "https://noohub.ru", 
+        "https://huecker.io",
+        "https://dockerhub.timeweb.cloud",
+        "https://mirror.ccs.tencentyun.com",
+        "https://registry.docker-cn.com",
+        "http://docker.mirrors.ustc.edu.cn",
+        "http://hub-mirror.c.163.com"
+    ]
+}
+```
