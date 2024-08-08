@@ -9,9 +9,19 @@ tags = ["docker", "tools"]
 
 [toc]
 
+## docker介绍
+
+- Docker Desktop <https://docs.docker.com/desktop/>
+  - Docker Engine
+    - Docker Daemon（dockerd）<https://docs.docker.com/engine/>
+    - REST API
+    - Docker CLI
+  - Compose
+  - k8s
+
 ## 作用
 
-优化开发, 部署的工作流
+简化开发, 部署
 
 ## 相关教程
 
@@ -437,26 +447,12 @@ services:
     hostname: web1
     ports:
       - '81:5000'
-    develop:
-      watch:
-        - path: ./backend/src
-          action: sync
-          target: /usr/local/app/src
-        - path: ./backend/package.json
-          action: rebuild
   web2:
     restart: on-failure
     build: ./web
     hostname: web2
     ports:
       - '82:5000'
-    develop:
-      watch:
-        - path: ./backend/src
-          action: sync
-          target: /usr/local/app/src
-        - path: ./backend/package.json
-          action: rebuild
   nginx:
     build: ./nginx
     ports:
