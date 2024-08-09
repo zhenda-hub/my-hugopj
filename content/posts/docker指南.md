@@ -45,6 +45,14 @@ tags = ["docker", "tools"]
 | Service  | 在 Swarm 模式下，定义了如何部署和管理一组容器实例。                                         |
 | Stack    | 在 Docker Swarm 或 Compose 中定义的一组相关服务和资源。                                      |
 
+## Repository
+
+- dockerhub
+- ghcr
+  - <https://docs.github.com/zh/packages/working-with-a-github-packages-registry/working-with-the-container-registry>
+  - <https://medium.com/@deepak1812002/get-started-with-github-ghcr-an-alternative-of-dockerhub-f7d5b2198b9a>
+  - <https://gist.github.com/yokawasa/841b6db379aa68b2859846da84a9643c>
+
 ## 操作docker的方法
 
 1. 可视化工具
@@ -59,6 +67,9 @@ tags = ["docker", "tools"]
 ```bash
 # 创建 context
 docker context create desktop-linux --description "Docker Desktop" --docker "host=unix:///home/YOUR_USER_NAME/.docker/desktop/docker.sock"
+
+# create files
+docker init
 
 # repo
 docker pull username/image_name:tag_version
