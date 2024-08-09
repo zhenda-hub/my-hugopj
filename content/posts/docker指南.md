@@ -16,6 +16,7 @@ tags = ["docker", "tools"]
     - Docker Daemon（dockerd）<https://docs.docker.com/engine/>
     - REST API
     - Docker CLI
+  - scout
   - Compose
   - k8s
 
@@ -343,6 +344,18 @@ docker build -t username/image_name:tag_version .
 docker run -d -p local_ip:container_ip username/image_name:tag_version
 ```
 
+4. Docker Scout (优化Dockerfile)
+
+检查image漏洞的工具, 通常在build之后检查image
+
+### Multi-stage builds 多阶段构建
+
+```Dockerfile
+From xxx_big AS builder
+From xxx_small AS final
+COPY --from=builder path1 path2
+```
+
 ## Volume 和 Bind Mount
 
 Docker 不允许直接将一个容器目录同时挂载到宿主机目录和 Docker volume
@@ -434,6 +447,48 @@ docker-compose.yaml 的目的是编排多个服务
   - configs
   - secrets
 
+### 环境变量
+
+相关文档
+
+- <https://docs.docker.com/compose/environment-variables/set-environment-variables/>
+- <https://docs.docker.com/compose/environment-variables/variable-interpolation/>
+
+在 Docker Compose 中
+
+- 服务名称会自动解析为对应的容器 IP 地址
+
+- 设置环境变量
+  - 使用.env文件设置
+- 使用环境变量
+  - env_file='xxx'
+    - 在 env_file 属性中指定的 .env 文件的路径是相对于 compose.yml 文件的位置的。
+  - Interpolation
+    - **${ENV_NAME}**
+
+#### .env书写格式
+
+```.env
+# mysql
+MYSQL_ROOT_PASSWORD=yourpassword1
+MYSQL_DATABASE=yourdbname
+MYSQL_USER=yourdbuser
+MYSQL_PASSWORD=yourdbpassword
+
+# web
+DB_HOST=db
+DB_NAME=${MYSQL_DATABASE}
+DB_USER=${MYSQL_USER}
+DB_PASSWORD=${MYSQL_PASSWORD}
+
+```
+
+### 查看实际运行的配置文件
+
+```bash
+docker compose config
+```
+
 ### 创建 compose.yaml
 
 ```yaml
@@ -469,18 +524,6 @@ volumes:
 
 command 覆盖 Dockerfile 中的 CMD，适用于特定服务的启动配置。
 
-### 环境变量
-
-在 Docker Compose 中，服务名称会自动解析为对应的容器 IP 地址
-
-使用.env文件设置环境变量, 在 Docker Compose 中，可以这样引用设置的环境变量 **${ENV_NAME}**
-
-难点:
-
-- 容器路径的绑定
-- 数据保存在volume
-- 
-
 ### 常用命令
 
 ```bash
@@ -501,6 +544,8 @@ docker compose down
 docker compose watch
 # 交互调试, exit退出此模式
 docker compose exec service_name /bin/bash
+# 查看实际运行的配置文件
+docker compose config
 ```
 
 ## 项目目录结构推荐
@@ -541,10 +586,6 @@ TODO: how
 git push -> run testcase -> build image -> use image to deploy -> 自动监控 -> 自动回滚
 
 ## 其余内容
-
-### Docker Scout
-
-检查image的工具
 
 ### Docker Swarm
 
