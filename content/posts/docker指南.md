@@ -608,6 +608,8 @@ git push -> run testcase -> build image -> use image to deploy -> 自动监控 -
 
 #### 使用 windows WSL2
 
+<https://learn.microsoft.com/en-us/windows/wsl/wsl-config#configure-global-options-with-wslconfig>
+
 配置WSL防止内存过大
 
 1. 创建 C:\Users\username\.wslconfig
@@ -647,6 +649,10 @@ git push -> run testcase -> build image -> use image to deploy -> 自动监控 -
   }
 }
 ```
+
+### 更换安装位置到别的盘
+
+<https://stackoverflow.com/questions/40465979/change-docker-native-images-location-on-windows-10-pro>
 
 ### 换源
 
