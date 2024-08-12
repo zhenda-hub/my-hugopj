@@ -279,6 +279,14 @@ Dockerfile 的目的是构建一个可复用的镜像
 | VOLUME	| Create volume mounts. |
 | WORKDIR	| Change working directory. |
 
+#### WORKDIR
+
+| 常用路径 | 特点 |
+| --- | --- |
+| /app	| 简单,快捷 |
+| /usr/local	| python和python包的默认安装路径,  |
+| /var/www	| 用于托管静态网站 |
+
 ### 基础镜像
 
 - 轻量级的 Linux 发行版
@@ -296,6 +304,17 @@ Dockerfile 的目的是构建一个可复用的镜像
 # 开发容器时, 为了防止容器挂掉, 可以使用以下两个命令
 tail -f /dev/null
 sleep infinity
+```
+
+#### Multi-stage builds 多阶段构建
+
+```Dockerfile
+FROM xxx_big AS builder
+# build...
+FROM xxx_small AS final
+COPY --from=builder path1 path1
+COPY --from=builder path2 path2
+# run...
 ```
 
 1. python项目的Dockerfile
@@ -347,14 +366,6 @@ docker run -d -p local_ip:container_ip username/image_name:tag_version
 4. Docker Scout (优化Dockerfile)
 
 检查image漏洞的工具, 通常在build之后检查image
-
-### Multi-stage builds 多阶段构建
-
-```Dockerfile
-From xxx_big AS builder
-From xxx_small AS final
-COPY --from=builder path1 path2
-```
 
 ## Volume 和 Bind Mount
 
