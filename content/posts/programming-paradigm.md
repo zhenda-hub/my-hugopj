@@ -9,6 +9,8 @@ tags = []
 
 ## 编程范式
 
+<https://www.freecodecamp.org/chinese/news/an-introduction-to-programming-paradigms/>
+
 -   面向过程
 
     -   c
