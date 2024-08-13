@@ -26,6 +26,7 @@ tags = ["docker", "tools"]
 
 ## 相关教程
 
+-   <https://docker-practice.github.io/zh-cn/introduction/>
 -   <https://juejin.cn/post/7154437479955693598>
 
 ## Docker 基本概念
@@ -80,7 +81,7 @@ docker images
 docker built -t username/image_name:tag_version .
 docker tag old_image_name new_image_name
 docker rmi image_id
-docker container commit TODO:
+docker container commit TODO: container to image???
 
 # container
 docker ps
@@ -315,9 +316,15 @@ Dockerfile 的目的是构建一个可复用的镜像
 # 开发容器时, 为了防止容器挂掉, 可以使用以下两个命令
 tail -f /dev/null
 sleep infinity
+# 例如:
+docker run -d image_name tail -f /dev/null
 ```
 
 #### Multi-stage builds 多阶段构建
+
+python还是推荐使用slim版本, alpine各种报错
+
+<https://docs.docker.com/build/building/multi-stage/>
 
 ```Dockerfile
 FROM xxx_big AS builder
