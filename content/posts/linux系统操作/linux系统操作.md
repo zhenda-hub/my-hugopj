@@ -260,3 +260,23 @@ shell 脚本的优势：
 -   debug
 
 学习 link： https://wangdoc.com/bash/intro
+
+```bash
+# 查看系统已经配置的shell
+cat /etc/shells
+```
+
+示例shell:
+
+- 首行, 指明文件类型
+- 设置安全检查
+
+```bash
+#!/bin/sh
+set -eu
+
+```
+
+#### 安全检查工具
+
+shellcheck
