@@ -45,10 +45,13 @@ tags = ["docker", "tools"]
 | Kubernetes | 用于容器编排和管理的开源平台，支持自动化部署、扩展和管理应用程序。                           |
 | Service  | 在 Swarm 模式下，定义了如何部署和管理一组容器实例。                                         |
 | Stack    | 在 Docker Swarm 或 Compose 中定义的一组相关服务和资源。                                      |
+| Dangling 镜像    | 是指没有标签（tag）且不被任何容器使用的镜像                                      |
+| Dangling 卷    | 是指没有标签（tag）且不被任何容器使用的卷                                      |
 
 ## Repository
 
 - dockerhub
+  - 自动build 需要付费
 - ghcr
   - <https://docs.github.com/zh/packages/working-with-a-github-packages-registry/working-with-the-container-registry>
   - <https://medium.com/@deepak1812002/get-started-with-github-ghcr-an-alternative-of-dockerhub-f7d5b2198b9a>
@@ -81,6 +84,8 @@ docker images
 docker built -t username/image_name:tag_version .
 docker tag old_image_name new_image_name
 docker rmi image_id
+# 删除 dangling image
+docker image prune
 docker container commit TODO: container to image???
 
 # container
