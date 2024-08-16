@@ -325,21 +325,6 @@ sleep infinity
 docker run -d image_name tail -f /dev/null
 ```
 
-#### Multi-stage builds 多阶段构建
-
-python还是推荐使用slim版本, alpine各种报错
-
-<https://docs.docker.com/build/building/multi-stage/>
-
-```Dockerfile
-FROM xxx_big AS builder
-# build...
-FROM xxx_small AS final
-COPY --from=builder path1 path1
-COPY --from=builder path2 path2
-# run...
-```
-
 1. python项目的Dockerfile
 
 ```Dockerfile
@@ -389,6 +374,27 @@ docker run -d -p local_ip:container_ip username/image_name:tag_version
 4. Docker Scout (优化Dockerfile)
 
 检查image漏洞的工具, 通常在build之后检查image
+
+5. Multi-stage builds 多阶段构建
+
+python还是推荐使用slim版本, alpine各种报错
+
+<https://docs.docker.com/build/building/multi-stage/>
+
+```Dockerfile
+FROM xxx_big AS builder
+# build...
+FROM xxx_small AS final
+COPY --from=builder path1 path1
+COPY --from=builder path2 path2
+# run...
+```
+
+#### 多个port绑定的作用
+
+- 不同服务
+- 负载均衡
+- debug和测试
 
 ## Volume 和 Bind Mount
 
@@ -504,17 +510,13 @@ docker-compose.yaml 的目的是编排多个服务
 
 ```.env
 # mysql
-MYSQL_ROOT_PASSWORD=yourpassword1
-MYSQL_DATABASE=yourdbname
-MYSQL_USER=yourdbuser
-MYSQL_PASSWORD=yourdbpassword
+MYSQL_ROOT_PASSWORD=111
+MYSQL_DATABASE=mydb
+MYSQL_USER=user1
+MYSQL_PASSWORD=444
 
 # web
 DB_HOST=db
-DB_NAME=${MYSQL_DATABASE}
-DB_USER=${MYSQL_USER}
-DB_PASSWORD=${MYSQL_PASSWORD}
-
 ```
 
 ### 查看实际运行的配置文件
@@ -548,10 +550,10 @@ services:
   nginx:
     build: ./nginx
     ports:
-    - '80:80'
+      - "${NGINX_PORT}:8000"  # 环境变量设置对外port
     depends_on:
-    - web1
-    - web2
+      - web1
+      - web2
 volumes:
   redis-data:
 ```
@@ -562,7 +564,7 @@ command 覆盖 Dockerfile 中的 CMD，适用于特定服务的启动配置。
 
 ```bash
 docker compose --help
-# 生成image, container
+# 生成image, container, build 作用: 重新构建image
 docker compose up --build
 # 生成image, container, 后台运行
 docker compose up --build -d
@@ -580,6 +582,8 @@ docker compose watch
 docker compose exec service_name /bin/bash
 # 查看实际运行的配置文件
 docker compose config
+# 指定环境变量文件
+docker compose --env-file .env.production up -d
 ```
 
 ## 项目目录结构推荐
