@@ -57,6 +57,27 @@ tags = ["docker", "tools"]
   - <https://medium.com/@deepak1812002/get-started-with-github-ghcr-an-alternative-of-dockerhub-f7d5b2198b9a>
   - <https://gist.github.com/yokawasa/841b6db379aa68b2859846da84a9643c>
 
+### ghcr
+
+
+#### 手动推送
+
+1. 登录
+- <https://github.com/settings/tokens>
+- <https://docs.github.com/zh/packages/working-with-a-github-packages-registry/working-with-the-container-registry>
+
+```bash
+export CR_PAT=YOUR_TOKEN
+echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
+```
+
+1. 命令
+```bash
+
+docker tag xxxx ghcr.io/github_id/image_name:tag_name
+docker push ghcr.io/github_id/image_name:tag_name
+```
+
 ## 操作docker的方法
 
 1. 可视化工具
@@ -86,7 +107,6 @@ docker tag old_image_name new_image_name
 docker rmi image_id
 # 删除 dangling image
 docker image prune
-docker container commit TODO: container to image???
 
 # container
 docker ps
@@ -452,6 +472,7 @@ docker-compose.yaml 的目的是编排多个服务
 
 ### 官方文档
 
+-   <https://docs.docker.com/reference/compose-file/>
 -   <https://docs.docker.com/compose/compose-file/05-services/#simple-example>
   
 ### yaml文件
@@ -566,7 +587,7 @@ command 覆盖 Dockerfile 中的 CMD，适用于特定服务的启动配置。
 docker compose --help
 # 生成image, container, build 作用: 重新构建image
 docker compose up --build
-# 生成image, container, 后台运行
+# 后台运行，可以重复运行！ Docker Compose 会自动检测变化，并只重新构建和启动有变化的服务
 docker compose up --build -d
 # 停止container
 docker compose stop
@@ -574,7 +595,7 @@ docker compose stop
 docker compose restart service_name
 docker compose stop service_name
 docker compose start service_name
-# 销毁container
+# 销毁container， network
 docker compose down
 # 开发环境,查看实时变化, 需要在compose.yaml添加 develop, watch
 docker compose watch
@@ -615,15 +636,122 @@ myproject/
 
 ## docker 标签
 
-用于版本回退
-TODO: how
+方便image版本回退
 
-## 在CI/CD中的使用
+## CI/CD
 
-自动化, 命令, 触发
-git push -> run testcase -> build image -> use image to deploy -> 自动监控 -> 自动回滚
+### 主要构成
+
+- 持续集成（Continuous Integration，CI）, 执行 testcase
+- 持续交付（Continuous Delivery，CD）, 生成 docker image
+- 持续部署（Continuous Deployment，CD）, 使用ssh, 登录服务器, 更新代码和image, 启动服务
+
+### 工作流
+
+git push -> run testcase -> build image -> ssh deploy -> 自动监控 -> 自动回滚
+
+### 原理
+
+触发一系列命令, 执行自定义逻辑
+
+### 分类
+
+- github actions
+- gitlab ci/cd
+- jenkins
+
+### 为image设置时间辍
+
+```bash
+$(date -u +"")
+```
+
+### 使用github actions来实现CI/CD的实际操作
+
+1. 编写yaml文件定义逻辑
+
+  github actions yaml文件demo
+  ```yaml
+  name: dp gpt
+
+  on:
+      push:
+          branches: [ "master" ]
+      pull_request:
+          branches: [ "master" ]
+
+  jobs:
+    build:
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+
+        # - name: Set up Docker Buildx
+        #   uses: docker/setup-buildx-action@v2
+
+        - name: Log in to Docker Hub
+          uses: docker/login-action@v3
+          with:
+            username: ${{ secrets.DOCKER_USERNAME }}
+            password: ${{ secrets.DOCKER_PASSWORD }}
+
+        - name: Log in to ghrc
+          uses: docker/login-action@v3
+          with:
+            registry: ghcr.io
+            username: zhenda-hub
+            password: ${{ secrets.GHCR_PASSWORD }}
+            
+        - name: Build and push Docker image
+          uses: docker/build-push-action@v5
+          with:
+            context: ./pj1
+            push: true
+            tags: |
+              zzdnb/docker_django_demo:${{ github.sha }}
+              zzdnb/docker_django_demo:latest
+              ghcr.io/zhenda-hub/docker_django_demo:${{ github.sha }}
+              ghcr.io/zhenda-hub/docker_django_demo:latest
+
+    deploy:
+      needs: build
+      runs-on: ubuntu-latest
+
+      steps:
+        
+        - name: Deploy to Tencent Cloud
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.TENCENT_HOST }}
+            username: ${{ secrets.TENCENT_USERNAME }}
+            key: ${{ secrets.TENCENT_PRI_SSH_KEY }}
+            # password: ${{ secrets.TENCENT_PASSWORD }}
+            script: |
+              cd /www/wwwroot/docker-django-demo
+              git pull
+              sudo docker compose up --build -d
+
+  ```
+
+2. 服务器中设置ssh
+   ```bash
+   ssh-keygen -t rsa
+   cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+   # 最后在secret中设置私钥
+   ```
+3. 在github的代码仓库中, 设置很多的secret
+
+### yaml文件
+
+
 
 ## 其余内容
+
+### Buildx
+
+Buildx 是 Docker 的一个 CLI 插件，扩展了 docker build 命令的功能。它支持多平台构建、构建缓存、并行构建等高级功能
 
 ### Docker Swarm
 
