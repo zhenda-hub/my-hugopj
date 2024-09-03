@@ -28,6 +28,28 @@ linux 是一个稳定， 安全， 开源，免费的操作系统内核。 支�
 
 ## 初级阶段
 
+### systemd服务管理器
+
+systemd 是 Linux 系统中一个强大的初始化系统和服务管理器
+
+systemctl 是 systemd 的一个命令行工具，用于管理 systemd 系统和服务。通过 systemctl，我们可以方便地控制系统和服务的启动、停止、重启、查看状态等
+
+以mysql为例子
+
+```bash
+# 查看所有服务
+systemctl list-units --type=service
+systemctl status mysql
+systemctl start mysql
+systemctl stop mysql
+systemctl restart mysql
+systemctl reload mysql
+# 开机自动启动
+systemctl enable mysql
+systemctl disable mysql
+
+```
+
 ### 终端，shell 和 命令
 
 终端：一个供用户输入的黑框
@@ -233,6 +255,13 @@ sudo 命令 提升权限 visudo
 -   ifconfig
 -   ping
 -   curl
+
+#### 查看port
+
+```bash
+netstat -tulnp | grep :3306
+lsof -i:3306
+```
 
 ### 防火墙
 
